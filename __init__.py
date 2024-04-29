@@ -218,7 +218,7 @@ class ScaleUnitProperties(bpy.types.PropertyGroup):
     
     imperial_snapping_enabled: bpy.props.BoolProperty(name="Enabled", default=False, update=toggle_functionality)
     
-    previous_unit_system: bpy.props.StringProperty(name="Previous Unit System", default=bpy.context.scene.unit_settings.system)
+    previous_unit_system: bpy.props.StringProperty(name="Previous Unit System")
 
 
 class ImperialSnappingPanel(bpy.types.Panel):
