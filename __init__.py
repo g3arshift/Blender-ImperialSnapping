@@ -16,7 +16,6 @@ import bpy
 from bpy.props import *
 from bpy.types import *
 from bpy.ops import *
-import blf
 
 bl_info = {
     "name": "ImperialSnappingAddon",
@@ -41,14 +40,8 @@ INCH_THIRTYSECOND = 0.03125
 INCH_SIXTYFOURTH = 0.015625
 INCH_HUNDREDTH = 0.010
 
-font_info = {
-    "font_id": 0,
-    "handler": None,
-}
-
-
 # Define Set Grid Scale
-def set_grid_scale(self, context):
+def set_grid_scale(self, context):       
     for workspace in bpy.data.workspaces:
         for area in workspace.screens[0].areas:
             if area.type == 'VIEW_3D':
@@ -57,7 +50,7 @@ def set_grid_scale(self, context):
                     region = space.region_3d
                     scene = context.scene
                     propTool = scene.prop_tool
-
+                    
                     # Define Set Scale
                     def set_scale(val):
                         for area in workspace.screens[0].areas:
@@ -92,7 +85,11 @@ def set_grid_scale(self, context):
                     thou_to_inch_diff = (grid_steps[1] - grid_steps[0])
 
                     # Determine Grid Scale
-                    if region_dist <= grid_steps[0]:
+                    # Replace with dictionary and if statement
+                    if not context.scene.prop_tool.imperial_snapping_enabled:
+                        gs = 1.000
+                        _current_snap_unit = 'None'
+                    elif region_dist <= grid_steps[0]:
                         # Thou
                         gs = 1.000
                         _current_snap_unit = 'Thou'
@@ -176,7 +173,7 @@ def update_func(self, context):
     set_grid_scale(self, context)
     
 def toggle_functionality(self, context):
-    update_func(self, context) # TODO: Add check in set_grid_scale for orthographic view
+    update_func(self, context)
 
     bpy.ops.view3d.imperial_snapping('INVOKE_DEFAULT')
 
@@ -211,10 +208,9 @@ class ScaleUnitProperties(bpy.types.PropertyGroup):
     unit_int_sixtyfourth_inch_text_display_offset: bpy.props.IntProperty(name="Offset", default=158)
     unit_int_hundredth_inch_text_display_offset: bpy.props.IntProperty(name="Offset", default=137)
     
-    toggle_imperial_snapping: bpy.props.BoolProperty(name="Enabled", default=False, update=toggle_functionality)
+    imperial_snapping_enabled: bpy.props.BoolProperty(name="Enabled", default=False, update=toggle_functionality)
 
 
-# TODO: Move this up? Reorganize all the code better.
 class ImperialSnappingPanel(bpy.types.Panel):
     """Creates a Panel in the N window"""
     bl_idname = "OBJECT_PT_grid_scale_panel"
@@ -234,13 +230,12 @@ class ImperialSnappingPanel(bpy.types.Panel):
         col.prop(prop_tool, "unit_string_current_snap", emboss=True, text="Snap on")
         col.enabled = False
         
-        # Enable and disable addon functionality
-        # TODO: This is affecting the snap scale for some reason? Might be that it's updating and properly working when it normally isn't cause it runs an update
         col = layout.column(heading="Enable Imperial Snapping") # TODO: Give it a better heading
-        col.prop(prop_tool, "toggle_imperial_snapping")
+        col.prop(prop_tool, "imperial_snapping_enabled")
 
         col = layout.column(heading="Fractions Snapping:")
         col.separator()
+        # TODO: These checks can be greatly simplifed
         # Check Half Inch
         col.prop(prop_tool, "unit_bool_half_inch")
         if prop_tool.unit_bool_half_inch:
@@ -285,15 +280,13 @@ class ImperialSnappingPanel(bpy.types.Panel):
             col.prop(prop_tool, "unit_int_hundredth_inch")
             col.separator()
 
-
 class ModalOperator(bpy.types.Operator):
     bl_idname = "view3d.imperial_snapping"
     bl_label = "Imperial Snapping Addon"
 
     def modal(self, context, event):
-#        print('Modal running!')
-        if not context.scene.prop_tool.toggle_imperial_snapping:
-            # TODO: Reset the scale, disable the text in the top left
+
+        if not context.scene.prop_tool.imperial_snapping_enabled:
             return{'CANCELLED'}
         elif event.type == 'WHEELUPMOUSE' or event.type == 'WHEELDOWNMOUSE':
             set_grid_scale(self, context)
