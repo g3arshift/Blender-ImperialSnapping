@@ -49,7 +49,7 @@ def set_grid_scale(self, context):
                     space = area.spaces.active
                     region = space.region_3d
                     scene = context.scene
-                    propTool = scene.prop_tool
+                    prop_tool = scene.prop_tool
                     
                     # Define Set Scale
                     def set_scale(val):
@@ -85,7 +85,6 @@ def set_grid_scale(self, context):
                     thou_to_inch_diff = (grid_steps[1] - grid_steps[0])
 
                     # Determine Grid Scale
-                    # Replace with dictionary and if statement
                     if not context.scene.prop_tool.imperial_snapping_enabled:
                         gs = 1.000
                         _current_snap_unit = 'None'
@@ -93,55 +92,54 @@ def set_grid_scale(self, context):
                         # Thou
                         gs = 1.000
                         _current_snap_unit = 'Thou'
-                    elif propTool.unit_bool_hundredth_inch and (
-                            region_dist <= thou_to_inch_diff / propTool.unit_int_hundredth_inch):
+                    elif prop_tool.unit_bool_hundredth_inch and (
+                            region_dist <= thou_to_inch_diff / prop_tool.unit_int_hundredth_inch):
                         # Hundredth Inches
                         gs = INCH_HUNDREDTH
                         _current_snap_unit = 'Hundredth'
-                        propTool.unit_int_current_text_display_offset = propTool.unit_int_hundredth_inch_text_display_offset
-                    elif propTool.unit_bool_sixtyfourth_inch and (
-                            region_dist <= thou_to_inch_diff / propTool.unit_int_sixtyfourth_inch):
+                        prop_tool.unit_int_current_text_display_offset = prop_tool.unit_int_hundredth_inch_text_display_offset
+                    elif prop_tool.unit_bool_sixtyfourth_inch and (
+                            region_dist <= thou_to_inch_diff / prop_tool.unit_int_sixtyfourth_inch):
                         # Sixtyfourth Inches
                         gs = INCH_SIXTYFOURTH
                         _current_snap_unit = 'Sixty-fourth'
-                        propTool.unit_int_current_text_display_offset = propTool.unit_int_sixtyfourth_inch_text_display_offset
-                    elif propTool.unit_bool_thirtysecond_inch and (
-                            region_dist <= thou_to_inch_diff / propTool.unit_int_thirtysecond_inch):
+                        prop_tool.unit_int_current_text_display_offset = prop_tool.unit_int_sixtyfourth_inch_text_display_offset
+                    elif prop_tool.unit_bool_thirtysecond_inch and (
+                            region_dist <= thou_to_inch_diff / prop_tool.unit_int_thirtysecond_inch):
                         # Thirtysecond Inches
                         gs = INCH_THIRTYSECOND
                         _current_snap_unit = 'Thirty-Second'
-                        propTool.unit_int_current_text_display_offset = propTool.unit_int_thirtysecond_inch_text_display_offset
-                    elif propTool.unit_bool_sixteenth_inch and (
-                            region_dist <= thou_to_inch_diff / propTool.unit_int_sixteenth_inch):
+                        prop_tool.unit_int_current_text_display_offset = prop_tool.unit_int_thirtysecond_inch_text_display_offset
+                    elif prop_tool.unit_bool_sixteenth_inch and (
+                            region_dist <= thou_to_inch_diff / prop_tool.unit_int_sixteenth_inch):
                         # Sixteenth Inches
                         gs = INCH_SIXTEENTH
                         _current_snap_unit = 'Sixteenth'
-                        propTool.unit_int_current_text_display_offset = propTool.unit_int_sixteenth_inch_text_display_offset
-                    elif propTool.unit_bool_tenth_inch and (
-                            region_dist <= thou_to_inch_diff / propTool.unit_int_tenth_inch):
+                        prop_tool.unit_int_current_text_display_offset = prop_tool.unit_int_sixteenth_inch_text_display_offset
+                    elif prop_tool.unit_bool_tenth_inch and (
+                            region_dist <= thou_to_inch_diff / prop_tool.unit_int_tenth_inch):
                         # Tenth Inches
                         gs = INCH_TENTH
                         _current_snap_unit = 'Tenth'
-                        propTool.unit_int_current_text_display_offset = propTool.unit_int_tenth_inch_text_display_offset
-                    elif propTool.unit_bool_eighth_inch and (
-                            region_dist <= thou_to_inch_diff / propTool.unit_int_eighth_inch):
+                        prop_tool.unit_int_current_text_display_offset = prop_tool.unit_int_tenth_inch_text_display_offset
+                    elif prop_tool.unit_bool_eighth_inch and (
+                            region_dist <= thou_to_inch_diff / prop_tool.unit_int_eighth_inch):
                         # Eigth Inches
                         gs = INCH_EIGHTH
                         _current_snap_unit = 'Eighth'
-                        propTool.unit_int_current_text_display_offset = propTool.unit_int_eighth_inch_text_display_offset
-                    elif propTool.unit_bool_quarter_inch and (
-                            region_dist <= thou_to_inch_diff / propTool.unit_int_quarter_inch):
+                        prop_tool.unit_int_current_text_display_offset = prop_tool.unit_int_eighth_inch_text_display_offset
+                    elif prop_tool.unit_bool_quarter_inch and (
+                            region_dist <= thou_to_inch_diff / prop_tool.unit_int_quarter_inch):
                         # Quarter Inches
                         gs = INCH_QUARTER
                         _current_snap_unit = 'Quarter'
-                        propTool.unit_int_current_text_display_offset = propTool.unit_int_quarter_inch_text_display_offset
-                    elif propTool.unit_bool_half_inch and (
-                            region_dist <= thou_to_inch_diff / propTool.unit_int_half_inch):
+                        prop_tool.unit_int_current_text_display_offset = prop_tool.unit_int_quarter_inch_text_display_offset
+                    elif prop_tool.unit_bool_half_inch and (
+                            region_dist <= thou_to_inch_diff / prop_tool.unit_int_half_inch):
                         # Half Inches
                         gs = INCH_HALF
                         _current_snap_unit = 'Half'
-                        propTool.unit_int_current_text_display_offset = propTool.unit_int_half_inch_text_display_offset
-                    # TODO: This can absolutely be a switch statement at least
+                        prop_tool.unit_int_current_text_display_offset = prop_tool.unit_int_half_inch_text_display_offset
                     elif region_dist <= grid_steps[1]:
                         # Inches
                         gs = 1.000
@@ -166,6 +164,9 @@ def set_grid_scale(self, context):
                         # Miles
                         gs = 1.000
                         _current_snap_unit = 'Miles'
+                        
+                    if bpy.context.window.workspace == workspace:
+                        prop_tool.unit_string_current_snap = _current_snap_unit
                     set_scale(gs)
 
 
@@ -173,9 +174,16 @@ def update_func(self, context):
     set_grid_scale(self, context)
     
 def toggle_functionality(self, context):
+    prop_tool = context.scene.prop_tool
+    if context.scene.prop_tool.imperial_snapping_enabled:
+        prop_tool.previous_unit_system = context.scene.unit_settings.system
+        context.scene.unit_settings.system = 'IMPERIAL'
+        bpy.ops.view3d.modal_operator('INVOKE_DEFAULT')
+    else:
+        context.scene.unit_settings.system = prop_tool.previous_unit_system
+        
+        
     update_func(self, context)
-
-    bpy.ops.view3d.imperial_snapping('INVOKE_DEFAULT')
 
 class ScaleUnitProperties(bpy.types.PropertyGroup):
     unit_int_half_inch: bpy.props.IntProperty(name="Visible at ", soft_min=1, soft_max=100, default=10, update=update_func)
@@ -196,9 +204,9 @@ class ScaleUnitProperties(bpy.types.PropertyGroup):
     unit_bool_sixtyfourth_inch: bpy.props.BoolProperty(name="Sixty-fourth Inches", default=False, update=update_func)
     unit_bool_hundredth_inch: bpy.props.BoolProperty(name="Hundredth Inches", default=False, update=update_func)
 
-    unit_string_current_snap: bpy.props.StringProperty(name="Current Scale")
+    unit_string_current_snap: bpy.props.StringProperty(name="Current Snap Step")
     unit_int_current_text_display_offset: bpy.props.IntProperty(name="Current Offset", default=0)
-
+    
     unit_int_half_inch_text_display_offset: bpy.props.IntProperty(name="Offset", default=130)
     unit_int_quarter_inch_text_display_offset: bpy.props.IntProperty(name="Offset", default=137)
     unit_int_eighth_inch_text_display_offset: bpy.props.IntProperty(name="Offset", default=144)
@@ -209,6 +217,8 @@ class ScaleUnitProperties(bpy.types.PropertyGroup):
     unit_int_hundredth_inch_text_display_offset: bpy.props.IntProperty(name="Offset", default=137)
     
     imperial_snapping_enabled: bpy.props.BoolProperty(name="Enabled", default=False, update=toggle_functionality)
+    
+    previous_unit_system: bpy.props.StringProperty(name="Previous Unit System", default=bpy.context.scene.unit_settings.system)
 
 
 class ImperialSnappingPanel(bpy.types.Panel):
@@ -230,32 +240,36 @@ class ImperialSnappingPanel(bpy.types.Panel):
         col.prop(prop_tool, "unit_string_current_snap", emboss=True, text="Snap on")
         col.enabled = False
         
-        col = layout.column(heading="Enable Imperial Snapping") # TODO: Give it a better heading
+        # Enable snapping
+        col = layout.column(heading="Enable Imperial Snapping")
         col.prop(prop_tool, "imperial_snapping_enabled")
 
         col = layout.column(heading="Fractions Snapping:")
-        col.separator()
-        # TODO: These checks can be greatly simplifed
+        
         # Check Half Inch
         col.prop(prop_tool, "unit_bool_half_inch")
         if prop_tool.unit_bool_half_inch:
             col.prop(prop_tool, "unit_int_half_inch")
             col.separator()
+            
         # Check Quarter Inch
         col.prop(prop_tool, "unit_bool_quarter_inch")
         if prop_tool.unit_bool_quarter_inch:
             col.prop(prop_tool, "unit_int_quarter_inch")
             col.separator()
+            
         # Check Eighth Inch
         col.prop(prop_tool, "unit_bool_eighth_inch")
         if prop_tool.unit_bool_eighth_inch:
             col.prop(prop_tool, "unit_int_eighth_inch")
             col.separator()
+            
         # Check Tenth Inch
         col.prop(prop_tool, "unit_bool_tenth_inch")
         if prop_tool.unit_bool_tenth_inch:
             col.prop(prop_tool, "unit_int_tenth_inch")
             col.separator()
+            
         # Check Sixteenth Inch
         col.prop(prop_tool, "unit_bool_sixteenth_inch")
         if prop_tool.unit_bool_sixteenth_inch:
@@ -264,16 +278,19 @@ class ImperialSnappingPanel(bpy.types.Panel):
         else:
             col.separator()
         col.label(text="Experimental Options:")
+        
         # Check Thirtysecond Inch
         col.prop(prop_tool, "unit_bool_thirtysecond_inch")
         if prop_tool.unit_bool_thirtysecond_inch:
             col.prop(prop_tool, "unit_int_thirtysecond_inch")
             col.separator()
+            
         # Check Sixtyfourth Inch
         col.prop(prop_tool, "unit_bool_sixtyfourth_inch")
         if prop_tool.unit_bool_sixtyfourth_inch:
             col.prop(prop_tool, "unit_int_sixtyfourth_inch")
             col.separator()
+            
         # Check Hundredth Inch
         col.prop(prop_tool, "unit_bool_hundredth_inch")
         if prop_tool.unit_bool_hundredth_inch:
@@ -281,26 +298,22 @@ class ImperialSnappingPanel(bpy.types.Panel):
             col.separator()
 
 class ModalOperator(bpy.types.Operator):
-    bl_idname = "view3d.imperial_snapping"
+    bl_idname = "view3d.modal_operator"
     bl_label = "Imperial Snapping Addon"
 
     def modal(self, context, event):
 
         if not context.scene.prop_tool.imperial_snapping_enabled:
-            return{'CANCELLED'}
+            return{'FINISHED'}
         elif event.type == 'WHEELUPMOUSE' or event.type == 'WHEELDOWNMOUSE':
             set_grid_scale(self, context)
             return {'PASS_THROUGH'}
-
-        return {'PASS_THROUGH'}
+        else:
+            return {'PASS_THROUGH'}
 
     def invoke(self, context, event):
         context.window_manager.modal_handler_add(self)
         return {'RUNNING_MODAL'}
-
-    def finish(self):
-        bpy.types.SpaceView3D.draw_handler_remove(self.handle, 'WINDOW')
-
 
 _classes = [ScaleUnitProperties, ImperialSnappingPanel, ModalOperator]
 
